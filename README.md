@@ -8,3 +8,7 @@ Please feel free to get in touch @ thomas.romain@bristol.ac.uk, I will try to pr
 I'm also intending on adding visuals, a little checkbox to open a new window showing the equations
 visually, as an explanation as to how the calculations are done, but I've started to fiddle with TKinter instead and I think it's a
 bit better of a kit to work with so I might get this to a usable state and then abandon it :)
+
+
+TODO: Fix that it crashes with 0 value inputs, fix that it crashes with -999 value inputs
+Thank you Elliotte for testing this and finding these errors
