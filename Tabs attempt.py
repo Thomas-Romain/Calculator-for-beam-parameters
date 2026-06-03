@@ -8,7 +8,9 @@ Created on Tue May 19 19:52:48 2026
 #TODO: change default combobox indexes to be useful, not having like, spot diameter in nm (?????)
 
 import sys
-from PyQt5.QtWidgets import QCheckBox, QComboBox, QGridLayout, QMainWindow, QApplication, QTextEdit, QLineEdit,  QWidget, QTabWidget, QVBoxLayout, QLabel,QPushButton
+
+from PyQt5.QtGui import QPixmap
+from PyQt5.QtWidgets import QCheckBox, QComboBox, QGridLayout, QMainWindow, QApplication, QTextEdit, QLineEdit,  QWidget, QTabWidget, QVBoxLayout, QLabel,QPushButton, QMessageBox
 import numpy as np
 
 #Creating popup windows with equations:
@@ -17,9 +19,9 @@ class PB1Window(QWidget):
         QWidget.__init__(self)
         self.title = "Equations"
         self.setWindowTitle(self.title)
-        self.setGeometry(700, 100, 100, 100)
-        self.setFixedWidth(400)
-        self.setFixedHeight(400)
+        self.setGeometry(600, 100, 100, 100) #Need to adjust width and height
+        self.setFixedWidth(1000)
+        self.setFixedHeight(300)
 
 class PB2Window(QWidget):
     def __init__(self):
@@ -46,7 +48,7 @@ class App(QMainWindow):
         super().__init__()
         self.title = 'What I got up to in Bordeaux: a script'
         self.setWindowTitle(self.title)
-        self.setGeometry(400, 100, 100, 100)
+        self.setGeometry(100, 100, 100, 100)
         self.setFixedWidth(600)
         self.setFixedHeight(600)
         self.tab_widget = MyTabWidget(self)
@@ -506,7 +508,7 @@ class MyTabWidget(QWidget):
         self.t = PB1Window()
         self.t.show()
         Vbox4 = QGridLayout()
-        pixmap = QPixmap(r"equation (1).svg")
+        pixmap = QPixmap("EquationTab1.png")
         self.Img = QLabel(self)
         self.Img.setPixmap(pixmap)
         self.Img.setScaledContents(True)
@@ -518,7 +520,7 @@ class MyTabWidget(QWidget):
         self.t2 = PB2Window()
         self.t2.show()
         Vbox5 = QGridLayout()
-        pixmap2 = QPixmap(r"equation.svg")
+        pixmap2 = QPixmap("EquationTab2.png") #Doesn't exist yet
         self.Img2 = QLabel(self)
         self.Img2.setPixmap(pixmap2)
         self.Img2.setScaledContents(True)
@@ -530,7 +532,7 @@ class MyTabWidget(QWidget):
         self.t3 = PB3Window()
         self.t3.show()
         Vbox6 = QGridLayout()
-        pixmap3 = QPixmap(r"C:\Users\bn23289\Downloads\Media.jpg")
+        pixmap3 = QPixmap("EquationTab1.png") #Doesn't exist yet
         self.Img3 = QLabel(self)
         self.Img3.setPixmap(pixmap3)
         self.Img3.setScaledContents(True)
@@ -542,14 +544,39 @@ class MyTabWidget(QWidget):
         SpotDiameter = float((self.line_edit2.text()))*(self.combobox2.itemData(int(self.combobox2.currentIndex())))
         Rep_rate = float((self.line_edit3.text()))*(self.combobox3.itemData(int(self.combobox3.currentIndex())))
         Pulse_FWHM = float((self.line_edit4.text()))*(self.combobox4.itemData(int(self.combobox4.currentIndex())))
-        self.line_Text.setPlainText(f"{((Power/Rep_rate)*(self.combobox7.itemData(int(self.combobox7.currentIndex())))):.3g}")   #Energy per pulse
-        self.line_Text2.setPlainText(f"{(((SpotDiameter/2)**2)*np.pi)*(self.combobox8.itemData(int(self.combobox8.currentIndex())))**2:.3g}") #Beam area
-        self.line_Text3.setPlainText(f"{((Power/Rep_rate)/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox6.itemData(int(self.combobox6.currentIndex()))):.3g}") #Fluence
-        self.le1.setPlainText(f"{(((Power/Rep_rate))/Pulse_FWHM)*(self.combobox10.itemData(int(self.combobox10.currentIndex()))):.3g}") #Pulse energy
-        self.le2.setPlainText(f"{(Power/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox11.itemData(int(self.combobox11.currentIndex()))):.3g}") #Peak Power
-        self.le3.setPlainText(f"{(Power/((((SpotDiameter/2)**2)*np.pi)*Pulse_FWHM*Rep_rate))*2*(self.combobox9.itemData(int(self.combobox9.currentIndex()))):.3g}") #Peak intensity
-        self.le4.setPlainText(f"{(1/Rep_rate)*(self.combobox12.itemData(int(self.combobox12.currentIndex()))):.3g}") #Pulse separation
-        self.le5.setPlainText(f"{Pulse_FWHM*Rep_rate:.3g}") #Duty cycle
+        try:
+                (Power/Rep_rate)*(self.combobox7.itemData(int(self.combobox7.currentIndex())))
+                (((SpotDiameter/2)**2)*np.pi)*(self.combobox8.itemData(int(self.combobox8.currentIndex())))
+                ((Power/Rep_rate)/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox6.itemData(int(self.combobox6.currentIndex())))
+                (((Power/Rep_rate))/Pulse_FWHM)*(self.combobox10.itemData(int(self.combobox10.currentIndex())))
+                (Power/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox11.itemData(int(self.combobox11.currentIndex())))
+                (Power/((((SpotDiameter/2)**2)*np.pi)*Pulse_FWHM*Rep_rate))*2*(self.combobox9.itemData(int(self.combobox9.currentIndex())))
+                (1/Rep_rate)*(self.combobox12.itemData(int(self.combobox12.currentIndex())))
+                Pulse_FWHM*Rep_rate
+        except Exception as e:
+                    dlg = QMessageBox(self)
+                    dlg.setWindowTitle("Error!")
+                    dlg.setText(f"An error occured: {e}, resetting values...")
+                    dlg.exec()
+                    self.line_edit1.setText("35")
+                    self.line_edit2.setText("6")
+                    self.line_edit3.setText("1000")
+                    self.line_edit1A.setText("35")
+                    self.line_edit2A.setText("6")
+                    self.line_edit3A.setText("1000")
+                    self.line_edit4.setText("100")
+
+        else:
+                self.line_Text.setPlainText(f"{((Power/Rep_rate)*(self.combobox7.itemData(int(self.combobox7.currentIndex())))):.3g}")   #Energy per pulse
+                self.line_Text2.setPlainText(f"{(((SpotDiameter/2)**2)*np.pi)*(self.combobox8.itemData(int(self.combobox8.currentIndex())))**2:.3g}") #Beam area
+                self.line_Text3.setPlainText(f"{((Power/Rep_rate)/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox6.itemData(int(self.combobox6.currentIndex()))):.3g}") #Fluence
+                self.le1.setPlainText(f"{(((Power/Rep_rate))/Pulse_FWHM)*(self.combobox10.itemData(int(self.combobox10.currentIndex()))):.3g}") #Pulse energy
+                self.le2.setPlainText(f"{(Power/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox11.itemData(int(self.combobox11.currentIndex()))):.3g}") #Peak Power
+                self.le3.setPlainText(f"{(Power/((((SpotDiameter/2)**2)*np.pi)*Pulse_FWHM*Rep_rate))*2*(self.combobox9.itemData(int(self.combobox9.currentIndex()))):.3g}") #Peak intensity
+                self.le4.setPlainText(f"{(1/Rep_rate)*(self.combobox12.itemData(int(self.combobox12.currentIndex()))):.3g}") #Pulse separation
+                self.le5.setPlainText(f"{Pulse_FWHM*Rep_rate:.3g}") #Duty cycle
+
+
 
         PowerT2 = float((self.line_edit1A.text()))*(self.comboboxA.itemData(int(self.comboboxA.currentIndex())))
         SpotDiameterT2 = float((self.line_edit2A.text()))*(self.combobox2A.itemData(int(self.combobox2A.currentIndex())))
