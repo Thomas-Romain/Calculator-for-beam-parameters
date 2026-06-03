@@ -14,10 +14,31 @@ import numpy as np
 #Creating popup windows with equations:
 class PB1Window(QWidget):
     def __init__(self):
-        super().__init__()
-        layout = QVBoxLayout()
-        image = QLabel(pixmap=QPixmap(r"C:\Users\Arcti\Downloads\AERHGAEHSRTH.png"))
-        self.setLayout(layout)
+        QWidget.__init__(self)
+        self.title = "Equations"
+        self.setWindowTitle(self.title)
+        self.setGeometry(700, 100, 100, 100)
+        self.setFixedWidth(400)
+        self.setFixedHeight(400)
+
+class PB2Window(QWidget):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.title = "Equations"
+        self.setWindowTitle(self.title)
+        self.setGeometry(1100, 100, 100, 100)
+        self.setFixedWidth(400)
+        self.setFixedHeight(400)
+
+class PB3Window(QWidget):
+    def __init__(self):
+        QWidget.__init__(self)
+        self.title = "Equations"
+        self.setWindowTitle(self.title)
+        self.setGeometry(1500, 100, 100, 100)
+        self.setFixedWidth(400)
+        self.setFixedHeight(400)
+
 
 # Creating the main window
 class App(QMainWindow):
@@ -481,13 +502,40 @@ class MyTabWidget(QWidget):
             self.combobox12.hide()
 
     def Button1Push(self):
-        PB1Window.show()
+        print("Opening")
+        self.t = PB1Window()
+        self.t.show()
+        Vbox4 = QGridLayout()
+        pixmap = QPixmap(r"equation (1).svg")
+        self.Img = QLabel(self)
+        self.Img.setPixmap(pixmap)
+        self.Img.setScaledContents(True)
+        Vbox4.addWidget(self.Img)
+        self.t.setLayout(Vbox4)
 
     def Button2Push(self):
         print("Button2Push")
+        self.t2 = PB2Window()
+        self.t2.show()
+        Vbox5 = QGridLayout()
+        pixmap2 = QPixmap(r"equation.svg")
+        self.Img2 = QLabel(self)
+        self.Img2.setPixmap(pixmap2)
+        self.Img2.setScaledContents(True)
+        Vbox5.addWidget(self.Img2)
+        self.t2.setLayout(Vbox5)
 
     def Button3Push(self):
         print("Button3Push")
+        self.t3 = PB3Window()
+        self.t3.show()
+        Vbox6 = QGridLayout()
+        pixmap3 = QPixmap(r"C:\Users\bn23289\Downloads\Media.jpg")
+        self.Img3 = QLabel(self)
+        self.Img3.setPixmap(pixmap3)
+        self.Img3.setScaledContents(True)
+        Vbox6.addWidget(self.Img3)
+        self.t3.setLayout(Vbox6)
 
     def EnterPressed(self): #Calculations and whatnot, all done using one defined command, definitely not optimal
         Power = float((self.line_edit1.text()))*(self.combobox.itemData(int(self.combobox.currentIndex())))
