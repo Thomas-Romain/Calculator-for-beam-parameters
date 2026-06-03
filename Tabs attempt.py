@@ -133,10 +133,10 @@ class MyTabWidget(QWidget):
         self.combobox8.addItem("nm\u00b2",1e9)
 
         self.combobox9 = QComboBox(self) #Peak intensity
-        self.combobox9.addItem("Wcm\u00b2", 1e-4)
-        self.combobox9.addItem("kWcm\u00b2",1e-3*1e-4)
-        self.combobox9.addItem("MWcm\u00b2",1e-6*1e-4)
-        self.combobox9.addItem("GWcm\u00b2",1e-9*1e-4)
+        self.combobox9.addItem("Wcm\u207b\u00b2", 1e-4)
+        self.combobox9.addItem("kWcm\u207b\u00b2",1e-3*1e-4)
+        self.combobox9.addItem("MWcm\u207b\u00b2",1e-6*1e-4)
+        self.combobox9.addItem("GWcm\u207b\u00b2",1e-9*1e-4)
 
         self.combobox10 = QComboBox(self) #Peak power
         self.combobox10.addItem("W", 1)
@@ -145,10 +145,10 @@ class MyTabWidget(QWidget):
         self.combobox10.addItem("GW",1e-9)
 
         self.combobox11 = QComboBox(self) #Average intensity
-        self.combobox11.addItem("mWcm\u00b2",(1e3*1e-4))
-        self.combobox11.addItem("Wcm\u00b2", 1e-4)
-        self.combobox11.addItem("kWcm\u00b2",(1e-3*1e-4))
-        self.combobox11.addItem("MWcm\u00b2",(1e-6*1e-4))
+        self.combobox11.addItem("mWcm\u207b\u00b2",(1e3*1e-4))
+        self.combobox11.addItem("Wcm\u207b\u00b2", 1e-4)
+        self.combobox11.addItem("kWcm\u207b\u00b2",(1e-3*1e-4))
+        self.combobox11.addItem("MWcm\u207b\u00b2",(1e-6*1e-4))
 
         self.combobox12 = QComboBox(self) #Pulse separation
         self.combobox12.addItem("s", 1)
