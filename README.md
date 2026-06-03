@@ -12,3 +12,4 @@ bit better of a kit to work with so I might get this to a usable state and then 
 
 TODO: Fix that it crashes with 0 value inputs, fix that it crashes with -999 value inputs
 Thank you Elliotte for testing this and finding these errors
+(Update as of 03/06/26) have added in a small error-catch for the first tab, as well as a pushbutton that shows the equations used, the other tabs need doing but this is an improvement
