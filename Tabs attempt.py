@@ -278,8 +278,9 @@ class MyTabWidget(QWidget):
 
         self.cb1T2 = QComboBox(self)
         self.cb1T2.addItem("ʎ (nm)", 1)
-        self.cb1T2.addItem("1/ʎ (cm\u00b1)", 1) #Put value here to convert to nm
-        self.cb1T2.addItem("1/f (Hz)",1) ##Put value here to convert to nm
+        self.cb1T2.addItem("1/ʎ (cm\u00b1)", 1e8) #Put value here to convert to nm
+        self.cb1T2.addItem("1/f (Hz)",299792458) ##Put value here to convert to nm
+        self.cb1T2.addItem("eV", 1239.8)
 
         self.cb2T2 = QComboBox(self)
         self.cb2T2.addItem("nm",1e-9)
@@ -341,9 +342,10 @@ class MyTabWidget(QWidget):
         self.LE4T3.setMaximumSize(200,30)
 
         self.cb1T3 = QComboBox(self)
-        self.cb1T3.addItem("ʎ (nm)", 1e-9)
-        self.cb1T3.addItem("1/ʎ (cm\u00b1)", 1) #Put value here to convert to nm
-        self.cb1T3.addItem("1/f (Hz)",1)
+        self.cb1T3.addItem("ʎ (nm)", 1)
+        self.cb1T3.addItem("1/ʎ (cm\u00b1)", 1e8) #Put value here to convert to nm
+        self.cb1T3.addItem("1/f (Hz)",299792458)
+        self.cb1T3.addItem("eV", 1239.8)
 
         self.cb2T3 = QComboBox(self)
         self.cb2T3.addItem("m", 1)
@@ -509,7 +511,7 @@ class MyTabWidget(QWidget):
         self.t.show()
         Vbox4 = QGridLayout()
         pixmap = QPixmap("EquationTab1.png")
-        self.Img = QLabel(self)
+        self.Img = QLabel(self.t)
         self.Img.setPixmap(pixmap)
         self.Img.setScaledContents(True)
         Vbox4.addWidget(self.Img)
@@ -540,11 +542,25 @@ class MyTabWidget(QWidget):
         self.t3.setLayout(Vbox6)
 
     def EnterPressed(self): #Calculations and whatnot, all done using one defined command, definitely not optimal
-        Power = float((self.line_edit1.text()))*(self.combobox.itemData(int(self.combobox.currentIndex())))
-        SpotDiameter = float((self.line_edit2.text()))*(self.combobox2.itemData(int(self.combobox2.currentIndex())))
-        Rep_rate = float((self.line_edit3.text()))*(self.combobox3.itemData(int(self.combobox3.currentIndex())))
-        Pulse_FWHM = float((self.line_edit4.text()))*(self.combobox4.itemData(int(self.combobox4.currentIndex())))
+        Power = self.line_edit1.text()
+        SpotDiameter = self.line_edit2.text()
+        Rep_rate = self.line_edit3.text()
+        Pulse_FWHM = self.line_edit4.text()
+        ODT2 = self.line_editT2.text()
+        PowerT2 = self.line_edit1A.text()
+        SpotDiameterT2 = self.line_edit2A.text()
+        Rep_rateT2 = self.line_edit3A.text()
+        ExcitingPulseT2 = self.line_edit2T2.text()
+        FT2 = self.line_edit3T2.text()
+        SpotDiameter3 = self.LE3T3.text()
+        M = self.LE4T3.text()
+        LightWavelength = self.LET3.text()
+        FocalLength = self.LE2T3.text()
         try:
+                Power = (float(Power))*(self.combobox.itemData(int(self.combobox.currentIndex())))
+                SpotDiameter=float(SpotDiameter)*(self.combobox2.itemData(int(self.combobox2.currentIndex())))
+                Rep_rate=float(Rep_rate)*(self.combobox3.itemData(int(self.combobox3.currentIndex())))
+                Pulse_FWHM=float(Pulse_FWHM)*(self.combobox4.itemData(int(self.combobox4.currentIndex())))
                 (Power/Rep_rate)*(self.combobox7.itemData(int(self.combobox7.currentIndex())))
                 (((SpotDiameter/2)**2)*np.pi)*(self.combobox8.itemData(int(self.combobox8.currentIndex())))
                 ((Power/Rep_rate)/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox6.itemData(int(self.combobox6.currentIndex())))
@@ -553,20 +569,28 @@ class MyTabWidget(QWidget):
                 (Power/((((SpotDiameter/2)**2)*np.pi)*Pulse_FWHM*Rep_rate))*2*(self.combobox9.itemData(int(self.combobox9.currentIndex())))
                 (1/Rep_rate)*(self.combobox12.itemData(int(self.combobox12.currentIndex())))
                 Pulse_FWHM*Rep_rate
-        except Exception as e:
-                    dlg = QMessageBox(self)
-                    dlg.setWindowTitle("Error!")
-                    dlg.setText(f"An error occured: {e}, resetting values...")
-                    dlg.exec()
-                    self.line_edit1.setText("35")
-                    self.line_edit2.setText("6")
-                    self.line_edit3.setText("1000")
-                    self.line_edit1A.setText("35")
-                    self.line_edit2A.setText("6")
-                    self.line_edit3A.setText("1000")
-                    self.line_edit4.setText("100")
-
-        else:
+                PowerT2 = float(PowerT2)* (self.comboboxA.itemData(int(self.comboboxA.currentIndex())))
+                SpotDiameterT2 = float(SpotDiameterT2) * (self.combobox2A.itemData(int(self.combobox2A.currentIndex())))
+                Rep_rateT2 = float(Rep_rateT2) * (self.combobox3A.itemData(int(self.combobox3A.currentIndex())))
+                ODT2 = float(ODT2)
+                if self.cb1T2.currentIndex() ==0:
+                        ExcitingPulseT2 = float(ExcitingPulseT2) * self.cb1T2.itemData(int(self.cb1T2.currentIndex()))
+                else:
+                        ExcitingPulseT2 = self.cb1T2.itemData(int(self.cb1T2.currentIndex()))/float(ExcitingPulseT2)
+                ExcitingPulseT2=ExcitingPulseT2*1e-9
+                FT2 = float(FT2) * self.cb2T2.itemData(int(self.cb2T2.currentIndex()))
+                Fluence = (PowerT2 / Rep_rateT2) * 2 / (((SpotDiameterT2 / 2) ** 2) * np.pi)  # J/m2
+                ExDen = Fluence * ExcitingPulseT2 * (1 - 10 ** -ODT2) / (6.626e-34 * 2.998e+8 * FT2)
+                SpotDiameter3 = float(SpotDiameter3) * (self.cb3T3.itemData(int(self.cb3T3.currentIndex())))
+                M = float(M)
+                if self.cb1T3.currentIndex() ==0:
+                        LightWavelength = float(LightWavelength) * self.cb1T3.itemData(int(self.cb1T3.currentIndex()))
+                else:
+                        LightWavelength = self.cb1T3.itemData(int(self.cb1T3.currentIndex()))/float(LightWavelength)
+                LightWavelength = LightWavelength * 1e-9
+                FocalLength = float(FocalLength) * (self.cb2T3.itemData(int(self.cb2T3.currentIndex())))
+                SpotSizeAtFocal = (4 * FocalLength * LightWavelength * M) / (np.pi * SpotDiameter3) * self.cb5T3.itemData(int(self.cb5T3.currentIndex()))
+                SpotSizeAtFocalP = (4 * FocalLength * LightWavelength * M) / (np.pi * SpotDiameter3)
                 self.line_Text.setPlainText(f"{((Power/Rep_rate)*(self.combobox7.itemData(int(self.combobox7.currentIndex())))):.3g}")   #Energy per pulse
                 self.line_Text2.setPlainText(f"{(((SpotDiameter/2)**2)*np.pi)*(self.combobox8.itemData(int(self.combobox8.currentIndex())))**2:.3g}") #Beam area
                 self.line_Text3.setPlainText(f"{((Power/Rep_rate)/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox6.itemData(int(self.combobox6.currentIndex()))):.3g}") #Fluence
@@ -575,28 +599,29 @@ class MyTabWidget(QWidget):
                 self.le3.setPlainText(f"{(Power/((((SpotDiameter/2)**2)*np.pi)*Pulse_FWHM*Rep_rate))*2*(self.combobox9.itemData(int(self.combobox9.currentIndex()))):.3g}") #Peak intensity
                 self.le4.setPlainText(f"{(1/Rep_rate)*(self.combobox12.itemData(int(self.combobox12.currentIndex()))):.3g}") #Pulse separation
                 self.le5.setPlainText(f"{Pulse_FWHM*Rep_rate:.3g}") #Duty cycle
+                self.line_edit4T2.setPlainText(f"{ExDen:.4g}") #ExDen
+                self.TET2.setPlainText(f"{SpotSizeAtFocal:.3g}")
+                self.TE2T2.setPlainText(f"{((np.pi * (SpotSizeAtFocalP ** 2)) / (LightWavelength * M)) * self.cb6T3.itemData(int(self.cb6T3.currentIndex())):.3g}")
 
-
-
-        PowerT2 = float((self.line_edit1A.text()))*(self.comboboxA.itemData(int(self.comboboxA.currentIndex())))
-        SpotDiameterT2 = float((self.line_edit2A.text()))*(self.combobox2A.itemData(int(self.combobox2A.currentIndex())))
-        Rep_rateT2 = float((self.line_edit3A.text()))*(self.combobox3A.itemData(int(self.combobox3A.currentIndex())))
-        ODT2 = float(self.line_editT2.text())
-        ExcitingPulseT2 = float(self.line_edit2T2.text()*self.cb1T2.itemData(int(self.cb1T2.currentIndex())))
-        # FT2 = float((self.line_edit3T2.text())*(self.cb2T2.itemData(int(self.cb2T2.currentIndex()))))
-        FT2 = float(float(self.line_edit3T2.text())*self.cb2T2.itemData(int(self.cb2T2.currentIndex())))
-        Fluence = (PowerT2/Rep_rateT2)*2/(((SpotDiameterT2/2)**2)*np.pi) #J/m2
-        ExDen = Fluence*ExcitingPulseT2*(1-10**-ODT2)/(6.626e-34*2.998e+8*FT2)
-        self.line_edit4T2.setPlainText(f"{ExDen:.4g}")
-
-        SpotDiameter3 = float((self.LE3T3.text()))*(self.cb3T3.itemData(int(self.cb3T3.currentIndex())))
-        M = float(self.LE4T3.text())
-        LightWavelength = float((self.LET3.text()))*(self.cb1T3.itemData(int(self.cb1T3.currentIndex())))
-        FocalLength = float((self.LE2T3.text()))*(self.cb2T3.itemData(int(self.cb2T3.currentIndex())))
-        SpotSizeAtFocal=(4*FocalLength*LightWavelength*M)/(np.pi*SpotDiameter3)*self.cb5T3.itemData(int(self.cb5T3.currentIndex()))
-        self.TET2.setPlainText(f"{SpotSizeAtFocal:.3g}")
-        SpotSizeAtFocalP=(4*FocalLength*LightWavelength*M)/(np.pi*SpotDiameter3)
-        self.TE2T2.setPlainText(f"{((np.pi*(SpotSizeAtFocalP**2))/(LightWavelength*M))*self.cb6T3.itemData(int(self.cb6T3.currentIndex())):.3g}")
+        except Exception as e:
+                    dlg = QMessageBox(self)
+                    dlg.setWindowTitle("Error!")
+                    dlg.setText(f"An error occured: {e}, resetting values...")
+                    dlg.exec()
+                    self.line_edit1.setText("35") #Power 1
+                    self.line_edit2.setText("6")  #Spotsize 1
+                    self.line_edit3.setText("1000") #Rep_rate1
+                    self.line_edit1A.setText("35") #Power 2
+                    self.line_edit2A.setText("6") #Spotsize 2
+                    self.line_edit3A.setText("1000") #Rep Rate 2
+                    self.line_edit4.setText("100") #Pulse width
+                    self.line_editT2.setText("0.5") #OD
+                    self.line_edit2T2.setText("800") #Exciting pulse
+                    self.line_edit3T2.setText("70") #FT2
+                    self.LE3T3.setText("6") #Spot Diameter
+                    self.LE4T3.setText("1")   #M
+                    self.LET3.setText("800")  #Wavelength
+                    self.LE2T3.setText("100") #Focal Length
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
