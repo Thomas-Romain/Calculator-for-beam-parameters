@@ -170,9 +170,9 @@ class MyTabWidget(QWidget):
         self.l5 = QLabel("Pulse FWHM")
         self.l6 = QLabel("Energy per pulse")
         self.l7 = QLabel("Beam area")
-        self.l8 = QLabel("Fluence")
+        self.l8 = QLabel("Fluence (Energy density)")
         self.l9 = QLabel("Result shown below")
-        self.label2 = QLabel("Peak power")
+        self.label2 = QLabel("Peak power (gaussian pulse)")
         self.label3 = QLabel("Average intensity")
         self.label4 = QLabel("Peak intensity")
         self.label5 = QLabel("Pulse separation")
@@ -510,7 +510,7 @@ class MyTabWidget(QWidget):
         self.t = PB1Window()
         self.t.show()
         Vbox4 = QGridLayout()
-        pixmap = QPixmap("EquationTab1.png")
+        pixmap = QPixmap("Equation1.png")
         self.Img = QLabel(self.t)
         self.Img.setPixmap(pixmap)
         self.Img.setScaledContents(True)
@@ -522,7 +522,7 @@ class MyTabWidget(QWidget):
         self.t2 = PB2Window()
         self.t2.show()
         Vbox5 = QGridLayout()
-        pixmap2 = QPixmap("EquationTab2.png") #Doesn't exist yet
+        pixmap2 = QPixmap("Equation2.png") #Doesn't exist yet
         self.Img2 = QLabel(self)
         self.Img2.setPixmap(pixmap2)
         self.Img2.setScaledContents(True)
@@ -534,7 +534,7 @@ class MyTabWidget(QWidget):
         self.t3 = PB3Window()
         self.t3.show()
         Vbox6 = QGridLayout()
-        pixmap3 = QPixmap("EquationTab1.png") #Doesn't exist yet
+        pixmap3 = QPixmap("Equation3.png") #Doesn't exist yet
         self.Img3 = QLabel(self)
         self.Img3.setPixmap(pixmap3)
         self.Img3.setScaledContents(True)
@@ -594,7 +594,7 @@ class MyTabWidget(QWidget):
                 self.line_Text.setPlainText(f"{((Power/Rep_rate)*(self.combobox7.itemData(int(self.combobox7.currentIndex())))):.3g}")   #Energy per pulse
                 self.line_Text2.setPlainText(f"{(((SpotDiameter/2)**2)*np.pi)*(self.combobox8.itemData(int(self.combobox8.currentIndex())))**2:.3g}") #Beam area
                 self.line_Text3.setPlainText(f"{((Power/Rep_rate)/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox6.itemData(int(self.combobox6.currentIndex()))):.3g}") #Fluence
-                self.le1.setPlainText(f"{(((Power/Rep_rate))/Pulse_FWHM)*(self.combobox10.itemData(int(self.combobox10.currentIndex()))):.3g}") #Pulse energy
+                self.le1.setPlainText(f"{(((Power/Rep_rate))/Pulse_FWHM)*0.94*(self.combobox10.itemData(int(self.combobox10.currentIndex()))):.3g}") #Pulse energy
                 self.le2.setPlainText(f"{(Power/(((SpotDiameter/2)**2)*np.pi))*2*(self.combobox11.itemData(int(self.combobox11.currentIndex()))):.3g}") #Peak Power
                 self.le3.setPlainText(f"{(Power/((((SpotDiameter/2)**2)*np.pi)*Pulse_FWHM*Rep_rate))*2*(self.combobox9.itemData(int(self.combobox9.currentIndex()))):.3g}") #Peak intensity
                 self.le4.setPlainText(f"{(1/Rep_rate)*(self.combobox12.itemData(int(self.combobox12.currentIndex()))):.3g}") #Pulse separation
