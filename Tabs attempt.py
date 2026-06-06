@@ -20,26 +20,26 @@ class PB1Window(QWidget):
         self.title = "Equations"
         self.setWindowTitle(self.title)
         self.setGeometry(600, 100, 100, 100) #Need to adjust width and height
-        self.setFixedWidth(1000)
-        self.setFixedHeight(300)
+        self.setFixedWidth(1300)
+        self.setFixedHeight(600)
 
 class PB2Window(QWidget):
     def __init__(self):
         QWidget.__init__(self)
         self.title = "Equations"
         self.setWindowTitle(self.title)
-        self.setGeometry(1100, 100, 100, 100)
-        self.setFixedWidth(400)
-        self.setFixedHeight(400)
+        self.setGeometry(600, 100, 100, 100)
+        self.setFixedWidth(1300)
+        self.setFixedHeight(600)
 
 class PB3Window(QWidget):
     def __init__(self):
         QWidget.__init__(self)
         self.title = "Equations"
         self.setWindowTitle(self.title)
-        self.setGeometry(1500, 100, 100, 100)
-        self.setFixedWidth(400)
-        self.setFixedHeight(400)
+        self.setGeometry(60, 100, 100, 100)
+        self.setFixedWidth(1300)
+        self.setFixedHeight(600)
 
 
 # Creating the main window
